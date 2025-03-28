@@ -1,0 +1,124 @@
+{% extends 'admin_index.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="container shadow-lg p-4 rounded" style="background-color: rgb(254, 254, 254);">
+        <h2 class="text-center mb-4">Add Category</h2>
+        <form method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label fw-bold">Category Name:</label>
+                <input type="text" name="category" class="form-control" placeholder="Enter category name" required>
+                <div class="invalid-feedback">Please enter a category name.</div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn aprimary px-4">Add Category</button>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .page-container {
+        max-width: 900px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        font-size: 26px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #3b6560;
+        text-align: center;
+    }
+
+    .add-btn {
+        display: inline-block;
+        background-color: #3b6560;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .add-btn:hover {
+        background-color: #3b6560;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fdfdfd;
+        border: 1px solid #ddd;
+    }
+
+    table th, table td {
+        padding: 12px 15px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    table th {
+        background-color: #3b6560;
+        font-weight: bold;
+        color: white;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    table img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    table td {
+        color: #555;
+        font-size: 14px;
+    }
+
+    .no-data {
+        text-align: center;
+        padding: 15px;
+        font-style: italic;
+        color: #999;
+    }
+    .aprimary{
+        background-color: #3b6560;
+        border-color: #3b6560 ;
+        color: azure;
+    }
+    .aprimary:hover {
+            background-color:#3b6560;
+            color: azure;
+        }
+</style>
+<!-- Bootstrap Form Validation Script -->
+<script>
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+{% endblock %}

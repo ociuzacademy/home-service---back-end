@@ -1,0 +1,150 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+<style>
+    .report-container {
+        width: 90%;
+        margin: 40px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        font-size: 26px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #3b6560;
+        text-align: center;
+    }
+
+    .report-card {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+
+    .cards {
+        width: 30%;
+        background-color: #e8f4fd;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h3 {
+        margin: 0;
+        font-size: 22px;
+        color: #333;
+    }
+
+    .card p {
+        font-size: 18px;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #3b6560;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #e8f4fd;
+        transition: 0.3s;
+    }
+</style>
+
+<div class="report-container">
+    <h2>Admin - Report Analysis</h2>
+
+    <!-- ✅ Overview Cards -->
+    <div class="report-card">
+        <div class="cards">
+            <h3>Total Users</h3>
+            <p>{{ total_users }}</p>
+        </div>
+        <div class="cards">
+            <h3>Total Providers</h3>
+            <p>{{ total_providers }}</p>
+        </div>
+        <div class="cards">
+            <h3>Total Bookings</h3>
+            <p>{{ booking_stats.total_bookings }}</p>
+        </div>
+    </div>
+
+    <!-- ✅ Booking Breakdown -->
+    <h3>Booking Status Breakdown</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Booked</td>
+                <td>{{ booking_stats.booked }}</td>
+            </tr>
+            <tr>
+                <td>Ongoing</td>
+                <td>{{ booking_stats.ongoing }}</td>
+            </tr>
+            <tr>
+                <td>Not Arrived</td>
+                <td>{{ booking_stats.not_arrived }}</td>
+            </tr>
+            <tr>
+                <td>Paid</td>
+                <td>{{ booking_stats.paid }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ✅ Provider Status Breakdown -->
+    <h3>Provider Approval Breakdown</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- <tr>
+                <td>Pending</td>
+                <td>{{ provider_stats.pending }}</td>
+            </tr> -->
+            <tr>
+                <td>Approved</td>
+                <td>{{ provider_stats.approved }}</td>
+            </tr>
+            <tr>
+                <td>Rejected</td>
+                <td>{{ provider_stats.rejected }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

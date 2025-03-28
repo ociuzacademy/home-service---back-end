@@ -1,0 +1,111 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+<style>
+    .page-container {
+        max-width: 900px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        font-size: 26px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #3b6560;
+        text-align: center;
+    }
+
+    .add-btn {
+        display: inline-block;
+        background-color: #3b6560;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .add-btn:hover {
+        background-color: #3b6560;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fdfdfd;
+        border: 1px solid #ddd;
+    }
+
+    table th, table td {
+        padding: 12px 15px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    table th {
+        background-color: #3b6560;
+        font-weight: bold;
+        color: white;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    table img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    table td {
+        color: #555;
+        font-size: 14px;
+    }
+
+    .no-data {
+        text-align: center;
+        padding: 15px;
+        font-style: italic;
+        color: #999;
+    }
+</style>
+
+<div class="page-container">
+    <h2>Category List</h2>
+    
+    <a href="{% url 'add_category' %}" class="add-btn">+ Add New Category</a>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Category Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.category}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="no-data">No categories found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-color: #3b6560;
+        --secondary-color: #3b6560;
+        --background-color: #f9f9f9;
+        --text-color: #333;
+        --hover-color: #e8f4fd;
+    }
+
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        font-size: 26px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #3b6560;
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: var(--text-color);
+    }
+
+    select, input[type="text"] {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .btn-save {
+        background-color: var(--secondary-color);
+        color: #fff;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-save:hover {
+        background-color: #3b6560;
+    }
+
+    .btn-back {
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .btn-back:hover {
+        background-color: #6f4ec7;
+    }
+</style>
+
+<div class="container">
+    <h2>Edit Service</h2>
+
+    <form method="POST" action="{% url 'edit_service' %}?id={{service.id}}">
+        {% csrf_token %}
+
+        <!-- Select Category -->
+        <label for="category">Category:</label>
+        <select name="category" id="category" required>
+            {% for category in categories %}
+            <option value="{{ category.id }}" {% if category.id == service.category.id %}selected{% endif %}>
+                {{ category.category }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <!-- Service Name -->
+        <label for="service_name">Service Name:</label>
+        <input type="text" id="service_name" name="service_name" value="{{ service.service_name }}" required>
+
+        <!-- Save Button -->
+        <button type="submit" class="btn-save">Save Changes</button>
+    </form>
+
+    <!-- Back Button -->
+    <a href="{% url 'view_services' %}" class="btn-back">Back to Services</a>
+</div>
+{% endblock %}

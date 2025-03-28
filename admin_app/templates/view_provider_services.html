@@ -1,0 +1,35 @@
+{% extends "admin_index.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center" style="color:white">Services Added by {{ provider.company_name }}</h2>
+
+    <table class="table table-bordered">
+        <thead style="background-color: #3a7970;color: azure;">
+            <tr>
+                <th>Category</th>
+                <th>Service Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody style="color: azure;background-color: #899b99;">
+            {% for service in services %}
+            <tr>
+                <td>{{ service.service.category.category }}</td>  <!-- Category Name -->
+                <td>{{ service.service.service_name }}</td>       <!-- Service Name -->
+                <td>₹{{ service.price }}</td>                     <!-- Price -->
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">No services added by this provider.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Back Button -->
+    <div class="text-center mt-3">
+        <!-- <a href="{% url 'manage_service_providers' %}" class="btn btn-secondary">Back to Manage Providers</a> -->
+    </div>
+</div>
+{% endblock %}
