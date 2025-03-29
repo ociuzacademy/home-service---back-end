@@ -66,7 +66,7 @@ urlpatterns = [
     path("user_booking_history/", UserBookingHistoryAPIView.as_view(), name="user_booking_history"),
     path("status_not_arrived/", UserMarkNotArrivedAPIView.as_view(), name="status_not_arrived"),
     path("status_completed/", UserMarkCompletedAPIView.as_view(), name="status_completed"),
-    
+     
 ]
 
 

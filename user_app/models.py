@@ -8,12 +8,7 @@ class User(models.Model):
     password=models.CharField(max_length=100)
     phone=models.CharField(max_length=20,default="")
     
-class CustomerSupport(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    content=models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return f"Support request from {self.user.username} on {self.created_at}"
+
 
 from service_app.models import *
     

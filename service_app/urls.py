@@ -28,10 +28,6 @@ router = DefaultRouter()
 router.register(r"service_registration",ServiceProviderRegisterView)
 router.register(r'add_services', AddServicesView,basename='add_services')
 router.register(r'view_services', ViewServicesView, basename='view_services')
-# router.register(r'serviceprovider_availability', ServiceAvailableTimeViewSet, basename='serviceprovider_availability')
-# router.register(r'confirm_booking', ConfirmBookingViewSet, basename='confirm_booking')
-# router.register(r'cancel_booking', CancelBookingViewSet, basename='cancel_booking')
-# router.register(r'complete_booking', CompleteBookingViewSet, basename='complete_booking')
 router.register(r'service_available_time',SetAvailableSlotsView,basename='service_available_time')
 
 
@@ -55,13 +51,10 @@ urlpatterns = [
     path("",include(router.urls)),
     # path('admin/', admin.site.urls),
     path('login/',LoginView.as_view(),name='login'),
-    # path('update_service/', UpdateServiceView.as_view(), name='update_service'),
     path('update_profile/', UpdateProfileview.as_view(), name='update_Profile'),
-    # path('delete_service/', DeleteServiceView.as_view(), name='delete_service'),
     path('view_categories/',CategoryView.as_view({'get':'list'}),name='view_categories'),
     path('view_service_provider_profile/', ViewServiceProviderProfileView.as_view({'get': 'list'}), name='view_service_provider_profile'),
     path('provider_view_reviews/', ProviderBookingReviewsAPIView.as_view(),name='provider_view_reviews'),
-    # path('view_added_service/', ServiceView.as_view({'get': 'list'}),name='view_added_service'),
     path('view_provider_services/', ServiceView.as_view({'get': 'provider_services'}), name='view_provider_services'),
     path('view_slots/',ServiceProviderSlotsView.as_view({'get':'list'}),name='view_slots'),
     path('view_bookings/', ServiceProviderBookingAPIView.as_view(), name='view_bookings'),

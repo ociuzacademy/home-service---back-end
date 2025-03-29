@@ -33,16 +33,8 @@ class ViewcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields='__all__'
-
-# class CustomerSupportSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model= CustomerSupport
-#         fields='__all__'
         
-class NotificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Notification
-        fields = ['id', 'content', 'created_at']
+
         
 class SlotSerializer(serializers.ModelSerializer):
     class Meta:

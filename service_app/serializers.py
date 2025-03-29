@@ -104,10 +104,6 @@ class StatusBookingSerializer(serializers.ModelSerializer):
         model = Booking
         fields = ['id', 'status'] 
         
-class ViewNotificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Notification
-        fields = '__all__'
 
 class BookingDetailsSerializer(serializers.ModelSerializer):
     service_name = serializers.CharField(source="service.service.service_name", read_only=True)
