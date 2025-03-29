@@ -447,7 +447,10 @@ class NearestServiceProviders(APIView):
                 status='approved',
                 is_approved=True
             )
-            service = Service.objects.get(service=service_id)
+            services = Service.objects.filter(service=service_id)
+            if not services.exists():
+                return Response({"error": "No services found with the given ID."}, status=status.HTTP_404_NOT_FOUND)
+
             # Calculate distance and filter providers within 50 km
             provider_data = []
             for provider in service_providers:
