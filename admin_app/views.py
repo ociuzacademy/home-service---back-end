@@ -104,19 +104,22 @@ def rejected_providers(request):
 
 def reject_service_provider(request):
     provider_id = request.GET.get("id")
-    provider = ServiceProvider.objects.get(id=provider_id)
-    
-    if provider.status == "approved":
-        provider.status = "rejected"
-        provider.save()
-        messages.error(request, "Service provider rejected successfully!")
-        return redirect("view_approved_providers")
-    
+    provider = get_object_or_404(ServiceProvider, id=provider_id)
+
+    if provider.status == "rejected":
+        messages.warning(request, "Provider is already rejected.")
+        return redirect("manage_service_providers")
+
     provider.status = "rejected"
+    provider.is_approved = False  # just to be safe
     provider.save()
+
+    if request.GET.get("from") == "approved":
+        messages.error(request, "Approved service provider has been rejected.")
+        return redirect("view_approved_providers")
+
     messages.error(request, "Service provider rejected successfully!")
     return redirect("manage_service_providers")
-
 
 # def edit_services(request):
 #     service_id=request.GET.get('id')
