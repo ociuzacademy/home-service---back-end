@@ -73,16 +73,16 @@ def approved_providers(request):
 
 def approve_service_provider(request):
     provider_id = request.GET.get("id")
-    provider = ServiceProvider.objects.get(id=provider_id)
+    provider = get_object_or_404(ServiceProvider, id=provider_id)
 
-    if provider.status == "rejected":
-        provider.status = "approved"
-        provider.save()
-        messages.success(request, "Service provider approved successfully!")
-        return redirect("view_rejected_providers")
+    if provider.status != "services_added":
+        messages.warning(request, "Cannot approve. Services have not been added yet.")
+        return redirect("manage_service_providers")
 
     provider.status = "approved"
+    provider.is_approved = True
     provider.save()
+    
     messages.success(request, "Service provider approved successfully!")
     return redirect("manage_service_providers")
 
