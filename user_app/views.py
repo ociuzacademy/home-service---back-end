@@ -1520,3 +1520,126 @@ class CardPaymentView(viewsets.ModelViewSet):
                 {"message": "An error occurred", "error": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+
+class FavoriteServiceProviderViewSet(viewsets.ModelViewSet):
+    queryset = FavoriteServiceProvider.objects.all()
+    serializer_class = FavServiceProviderSerializer
+    http_method_names = ['post']  # Only allow POST method for adding favorites
+
+    def create(self, request, *args, **kwargs):
+        """Add a Service Provider to User's Favorites"""
+        user_id = request.data.get("user_id")  # Get user_id from the request data
+        service_provider_id = request.data.get("provider_id")
+
+        if not user_id:
+            return Response(
+                {"message": "User ID is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not service_provider_id:
+            return Response(
+                {"message": "Service provider ID is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Check if the user exists
+        user = get_object_or_404(User, id=user_id)
+
+        # Check if the service provider exists
+        try:
+            service_provider = ServiceProvider.objects.get(id=service_provider_id)
+        except ServiceProvider.DoesNotExist:
+            return Response(
+                {"message": "Service provider not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Check if the user already has this service provider in their favorites
+        if FavoriteServiceProvider.objects.filter(user=user, service_provider=service_provider).exists():
+            return Response(
+                {"message": "This service provider is already in your favorites"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Create the favorite entry
+        favorite = FavoriteServiceProvider.objects.create(
+            user=user,
+            service_provider=service_provider
+        )
+
+        # Serialize the favorite data and return response
+        serializer = FavoriteServiceProviderSerializer(favorite)
+        return Response(
+            {"message": "Service provider added to favorites", "data": serializer.data},
+            status=status.HTTP_201_CREATED
+        )
+        
+        
+
+class ViewFavoriteServiceProviderViewSet(viewsets.ViewSet):
+    """
+    View to get a user's favorite service providers.
+    """
+    def list(self, request, *args, **kwargs):
+        """Get all favorite service providers of a user"""
+        user_id = request.query_params.get("user_id")  # Get user_id from query parameters
+
+        if not user_id:
+            return Response(
+                {"message": "User ID is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Check if the user exists
+        user = get_object_or_404(User, id=user_id)
+
+        # Get all favorite service providers for this user
+        favorites = FavoriteServiceProvider.objects.filter(user=user)
+
+        if not favorites.exists():
+            return Response(
+                {"message": "No favorite service providers found for this user"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Serialize the favorite service providers
+        serializer = FavoriteServiceProviderSerializer(favorites, many=True)
+
+        return Response(
+            {"message": "Favorite service providers retrieved successfully", "data": serializer.data},
+            status=status.HTTP_200_OK
+        )
+        
+        
+class RemoveFavoriteServiceProviderView(generics.DestroyAPIView):
+    queryset = FavoriteServiceProvider.objects.all()
+    serializer_class = FavoriteServiceProviderSerializer  # You can use None if not returning any serialized data
+
+    def delete(self, request, *args, **kwargs):
+        user_id = request.query_params.get('user_id')
+        provider_id = request.query_params.get('provider_id')
+
+        if not user_id or not provider_id:
+            return Response(
+                {"status": "failed", "message": "user_id and provider_id are required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            favorite = FavoriteServiceProvider.objects.get(user__id=user_id, service_provider__id=provider_id)
+            favorite.delete()
+            return Response(
+                {"status": "success", "message": "Service provider removed from favorites"},
+                status=status.HTTP_200_OK
+            )
+        except FavoriteServiceProvider.DoesNotExist:
+            return Response(
+                {"status": "failed", "message": "Favorite not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {"status": "failed", "message": "An error occurred", "error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

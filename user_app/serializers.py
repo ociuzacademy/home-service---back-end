@@ -170,4 +170,22 @@ class CardSerializer(serializers.ModelSerializer):
         model = Card
         fields = '__all__'
         
+class FavServiceProviderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=FavoriteServiceProvider
+        fields='__all__'
         
+class ViewFavServiceProviderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ServiceProvider
+        fields = ['id', 'username', 'image','phone','email','id_proof']
+
+    
+class FavoriteServiceProviderSerializer(serializers.ModelSerializer):
+    service_provider = ViewFavServiceProviderSerializer(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True)
+
+    class Meta:
+        model = FavoriteServiceProvider
+        fields = ['id', 'added_at', 'service_provider', 'user']

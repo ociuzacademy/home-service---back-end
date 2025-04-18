@@ -33,7 +33,9 @@ router.register(r'reviews', CreateReviewView, basename='review')
 router.register(r'service-providers', ServiceProviderViewSet, basename="service-provider")
 router.register(r'book_slot', BookingViewSet, basename='book_slot')
 router.register(r'upi_payment', UpiPaymentView, basename='upi_payment')
-router.register(r'card_payment', CardPaymentView, basename='card_payment')  
+router.register(r'card_payment', CardPaymentView, basename='card_payment')
+router.register(r'favorite-service-providers', FavoriteServiceProviderViewSet, basename='favorite-service-provider')
+router.register(r'view_favorite-service-providers', ViewFavoriteServiceProviderViewSet, basename='view_favorite-service-provider')  
 
 urlpatterns = [
     re_path(
@@ -66,6 +68,7 @@ urlpatterns = [
     path("user_booking_history/", UserBookingHistoryAPIView.as_view(), name="user_booking_history"),
     path("status_not_arrived/", UserMarkNotArrivedAPIView.as_view(), name="status_not_arrived"),
     path("status_completed/", UserMarkCompletedAPIView.as_view(), name="status_completed"),
+    path("remove_favorite-service-providers/", RemoveFavoriteServiceProviderView.as_view(), name="remove_favorite-service-providers"),
      
 ]
 

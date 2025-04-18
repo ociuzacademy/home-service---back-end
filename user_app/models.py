@@ -70,4 +70,7 @@ class Review(models.Model):
     rating = models.PositiveIntegerField(default=1, validators=[MaxValueValidator(5), MinValueValidator(1)])
     created_at = models.DateTimeField(auto_now_add=True)
     
-    
+class FavoriteServiceProvider(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
+    service_provider = models.ForeignKey(ServiceProvider, on_delete=models.CASCADE, related_name="favorited_by")
+    added_at = models.DateTimeField(auto_now_add=True)
