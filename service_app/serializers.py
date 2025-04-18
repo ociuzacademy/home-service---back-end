@@ -48,6 +48,7 @@ class ServiceProviderSerializer(serializers.ModelSerializer):
     
 class ViewServiceProviderSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
+    id_proof = serializers.SerializerMethodField()
 
     class Meta:
         model = ServiceProvider
@@ -56,6 +57,10 @@ class ViewServiceProviderSerializer(serializers.ModelSerializer):
     def get_image(self, obj):
         if obj.image:
             return f"media/{obj.image}"
+        return None
+    def get_id_proof(self, obj):
+        if obj.id_proof:
+            return f"media/{obj.id_proof}"
         return None
         
 class ViewServiceSerializer(serializers.ModelSerializer):
